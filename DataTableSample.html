@@ -31,112 +31,209 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-		
-		
 
 
-<input type="text" id="txtStudentId" placeholder="Student Id" style="display:none;" />
-<input type="text" id="txtName" placeholder="Student Name" style="margin-right:5px;" />
-<input type="text" id="txtRoll" placeholder="Student Roll" style="margin-right:5px;" />
 
-<button id="btnSave" class="btn btn-success" style="margin-right:5px;">Save</button>
-<button id="btnAddNew" class="btn btn-primary" style="margin-right:5px;">Add New Student</button>
 
-<br />
-<br />
+            <input type="text" id="txtStudentId" placeholder="Student Id" style="display:none;" />
+            <input type="text" id="txtName" placeholder="Student Name" style="margin-right:5px;" />
+            <input type="text" id="txtRoll" placeholder="Student Roll" style="margin-right:5px;" />
 
-<table id="tblStudents" class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Student Id</th>
-            <th>Name</th>
-            <th>Roll</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+            <button id="btnSave" class="btn btn-success" style="margin-right:5px;">Save</button>
+            <button id="btnAddNew" class="btn btn-primary" style="margin-right:5px;">Add New Student</button>
 
-		
-		</main>
+            <br />
+            <br />
+
+            <table id="tblStudents" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Student Id</th>
+                        <th>Name</th>
+                        <th>Roll</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+
+        </main>
     </div>
+
+    <a style="display:none;" data-toggle="modal" href="#create_account_modal">
+        Create an account
+    </a>
+
+
+    <!-- Modal -->
+    <div aria-hidden="true" aria-labelledby="forgot_password_modalLabel" role="dialog" tabindex="-1" id="forgot_password_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Forgot Password ?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Enter your e-mail address below to reset your password.</p>
+                    <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                    <button class="btn btn-theme" type="button">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+    <!-- Modal -->
+    <div aria-hidden="true" aria-labelledby="create_account_modalLabel" role="dialog" tabindex="-1" id="create_account_modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">New Account!</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="create_account_username" type="text" class="form-control" placeholder="User ID" autocomplete="username">
+                    <p id="create_account_username_notavailable"></p>
+                    <br>
+                    <input id="create_account_password" type="password" class="form-control" placeholder="Password" autocomplete="new-password">
+                    <div class="feedback"></div>
+                    <br>
+                    <input id="create_account_password_confirm" type="password" class="form-control" placeholder="Confirm Password" autocomplete="new-password">
+                    <p id="create_account_password_nomatch"></p>
+                    <br>
+                    <input type="text" id="create_account_email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+                    <p id="create_account_email_invalid"></p>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                    <button id="create_account_submit" class="btn btn-theme" type="button">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
 
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 -  - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-	<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
 
-<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#tblStudents').DataTable({
-            "ajax": {
-                "url": "/api/Students",
-                "dataSrc": ""
-            },
-            columns: [
-                { data: 'StudentId' },
-                { data: 'Name' },
-                { data: 'Roll' },
-                {
-                    data: "id", render: function (data, type, row, meta) {
-                        return "<button class='btn btn-primary' style='margin-right:5px;' onClick='Edit(" + JSON.stringify(row) + ")'>Edit</button>" +
-                            "<button class='btn btn-danger' onClick='Delete(" + JSON.stringify(row) + ")'>Delete</button>";
-                    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblStudents').DataTable({
+                "ajax": {
+                    "url": "/api/Students",
+                    "dataSrc": ""
                 },
-            ]
+                columns: [
+                    { data: 'StudentId' },
+                    { data: 'Name' },
+                    { data: 'Roll' },
+                    {
+                        data: "id", render: function (data, type, row, meta) {
+                            return "<button class='btn btn-primary' style='margin-right:5px;' onClick='Edit(" + JSON.stringify(row) + ")'>Edit</button>" +
+                                "<button class='btn btn-danger' onClick='Delete(" + JSON.stringify(row) + ")'>Delete</button>";
+                        }
+                    },
+                ]
+            });
+
+            $("#btnSave").click(function () {
+                var student = {
+                    StudentId: $.trim($("#txtStudentId").val()) == "" ? 0 : $("#txtStudentId").val(),
+                    Name: $("#txtName").val(),
+                    Roll: $("#txtRoll").val()
+                };
+
+                $.post("api/Students", { student: student })
+                    .done(function (data) {
+                        Reset();
+                        ReloadGrid();
+                        alert("Saved");
+                    });
+            });
+
+            $("#btnAddNew").click(function () {
+                Reset();
+            });
         });
-
-        $("#btnSave").click(function () {
-            var student = {
-                StudentId: $.trim($("#txtStudentId").val()) == "" ? 0 : $("#txtStudentId").val(),
-                Name: $("#txtName").val(),
-                Roll: $("#txtRoll").val()
-            };
-
-            $.post("api/Students", { student: student })
-                .done(function (data) {
-                    Reset();
+        function Edit(oStudent) {
+            $("#txtStudentId").val(oStudent.StudentId);
+            $("#txtName").val(oStudent.Name);
+            $("#txtRoll").val(oStudent.Roll);
+        }
+        function Delete(oStudent) {
+            $.ajax({
+                url: "api/Students/" + oStudent.StudentId,
+                type: 'DELETE',
+                success: function (result) {
+                    alert("Deleted");
                     ReloadGrid();
-                    alert("Saved");
-                });
-        });
+                }
+            });
+        }
+        function Reset() {
+            $("#txtStudentId").val(0);
+            $("#txtName").val("");
+            $("#txtRoll").val("");
+        }
+        function ReloadGrid() {
+            $('#tblStudents').DataTable().clear();
+            $('#tblStudents').DataTable().ajax.reload();
+        }
+    </script>
 
-        $("#btnAddNew").click(function () {
-            Reset();
+
+    <script>
+        $(function () {
+            $('.apptyes').click(function () {
+                window.location.href = '@Url.Action("Appointment", "Home")';
+            });
+
+            $('.nextstep').click(function () {
+                let queue = $(this).attr('queue');
+                let nextslide = $(this).attr('nextslide');
+                $("div#divLoading").addClass('show');
+                $.ajax({
+                    url: '@Url.Action("StoreQueue", "Home")',
+                    type: "POST",
+                    dataType: "json",
+                    data: '{queueName:"' + queue + '",nextslide:"' + nextslide + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    async: "true",
+                    cache: "false",
+                    success: function (data, status, xhr) {
+                        if (!data.isSuccess) {
+                            alert(data.message);
+                            return;
+                        }
+                        window.location.href = data.Redirect;
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        alert('Error: ' + errorMessage);
+                    },
+                    complete: function () {
+                        $("div#divLoading").removeClass('show');
+                    }
+                });
+
+            });
+
+
         });
-    });
-    function Edit(oStudent) {
-        $("#txtStudentId").val(oStudent.StudentId);
-        $("#txtName").val(oStudent.Name);
-        $("#txtRoll").val(oStudent.Roll);
-    }
-    function Delete(oStudent) {
-        $.ajax({
-            url: "api/Students/" + oStudent.StudentId,
-            type: 'DELETE',
-            success: function (result) {
-                alert("Deleted");
-                ReloadGrid();
-            }
-        });
-    }
-    function Reset() {
-        $("#txtStudentId").val(0);
-        $("#txtName").val("");
-        $("#txtRoll").val("");
-    }
-    function ReloadGrid() {
-        $('#tblStudents').DataTable().clear();
-        $('#tblStudents').DataTable().ajax.reload();
-    }
-</script>
+    </script>
+
 </body>
 </html>
